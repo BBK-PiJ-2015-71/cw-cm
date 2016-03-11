@@ -22,4 +22,7 @@ public class ContactImpl implements Contact{
 		return note;
 	}
 
+	public void addNotes(String note){
+
+	}
 }
