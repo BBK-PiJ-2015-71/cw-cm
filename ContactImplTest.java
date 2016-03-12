@@ -1,7 +1,14 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.lang.*;
 
 public class ContactImplTest {
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testExceptions1() {
+		Contact contact1 = new ContactImpl(-123,"Ullash Hazarika","He is always late to meetings");
+
+	}
 
 	@Test
 	public void testgetId(){
