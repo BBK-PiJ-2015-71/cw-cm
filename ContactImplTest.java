@@ -10,6 +10,12 @@ public class ContactImplTest {
 
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void testExceptions2() {
+		Contact contact1 = new ContactImpl(123,null,null);
+
+	}
+
 	@Test
 	public void testgetId(){
 		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
