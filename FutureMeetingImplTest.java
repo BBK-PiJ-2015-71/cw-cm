@@ -40,5 +40,25 @@ public class FutureMeetingImplTest {
 
 	}
 
+	@Test
+	public void testgetId(){
+
+		Set<Contact> setB=new LinkedHashSet<Contact>();
+
+		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
+		Contact contact2 = new ContactImpl(13,"Adam Smith");
+
+		setB.add(contact1);
+		setB.add(contact2);
+
+		Calendar date1=new GregorianCalendar(2016,1,25);
+
+		FutureMeeting meeting1 = new FutureMeetingImpl(101,date1,setB);
+
+		int resultId	 = meeting1.getId();	
+
+		assertEquals(101,resultId);
+
+	}
 	
 }
