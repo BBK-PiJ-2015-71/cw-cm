@@ -12,9 +12,13 @@ public abstract class MeetingImpl implements Meeting{
 
 	public MeetingImpl(Integer ID, Calendar date, Set<Contact> contacts){
 	
-	this.ID=ID;
-	this.date=date;
-	this.contacts=contacts;
+		if (ID <= 0) {
+      			throw new IllegalArgumentException(Integer.toString(ID));
+    		}
+ 
+		this.ID=ID;
+		this.date=date;
+		this.contacts=contacts;
 
 	}
 	
