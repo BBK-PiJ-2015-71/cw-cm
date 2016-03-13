@@ -15,6 +15,10 @@ public abstract class MeetingImpl implements Meeting{
 		if (ID <= 0) {
       			throw new IllegalArgumentException(Integer.toString(ID));
     		}
+
+		if (ID==null || date==null||contacts==null) {
+      			throw new NullPointerException("Null entry");
+    		}
  
 		this.ID=ID;
 		this.date=date;
