@@ -84,6 +84,31 @@ public class ContactManagerImplTest{
 
 	}
 
+	@Test
+	public void testgetFutureMeeting(){
+
+		Set<Contact> setB=new LinkedHashSet<Contact>();
+
+		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
+		Contact contact2 = new ContactImpl(13,"Adam Smith");
+
+		setB.add(contact1);
+		setB.add(contact2);
+
+		Calendar date1=new GregorianCalendar(2016,1,25);
+
+		FutureMeeting meeting1 = new FutureMeetingImpl(1,date1,setB);
+
+		ContactManager manager1 = new ContactManagerImpl();
+
+		manager1.addFutureMeeting(setB, date1);
+
+		assertEquals(meeting1.getDate(),manager1.getFutureMeeting(1).getDate());
+
+		assertEquals(meeting1.getId(),manager1.getFutureMeeting(1).getId());
+
+	}
+
 }
 
 ///javac -cp .;junit-4.12.jar;hamcrest-core-1.3.jar ContactManagerImplTest.java
