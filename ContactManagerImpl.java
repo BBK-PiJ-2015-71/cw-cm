@@ -6,10 +6,11 @@ import java.util.GregorianCalendar;
 
 public class ContactManagerImpl implements ContactManager{
 
-	private static Integer meetingCount=0;
-	private static Integer currentmeetingID=1;
+	private Integer meetingCount=0;
+	private Integer currentmeetingID=1;
 	private Map<Integer, Meeting> meetingmap;
 	private Map<Integer, Meeting> futuremeetingmap;
+	private Map<Integer, Meeting> pastmeetingmap;
 	private List<Meeting> meetings;	
 	private List<FutureMeeting> futuremeetings;
 	private List<PastMeeting> pastmeetings;
@@ -18,6 +19,7 @@ public class ContactManagerImpl implements ContactManager{
 
 		meetingmap = new HashMap<Integer, Meeting>();
 		futuremeetingmap = new HashMap<Integer, Meeting>();
+		pastmeetingmap  = new HashMap<Integer, Meeting>(); 
 		meetings      = new ArrayList<Meeting>();
 		futuremeetings= new ArrayList<FutureMeeting>();
 		pastmeetings  = new ArrayList<PastMeeting>();
@@ -33,18 +35,7 @@ public class ContactManagerImpl implements ContactManager{
 	}
 
 	public PastMeeting getPastMeeting(int id){
-		Set<Contact> setB=new LinkedHashSet<Contact>();
-
-		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
-		Contact contact2 = new ContactImpl(13,"Adam Smith");
-
-		setB.add(contact1);
-		setB.add(contact2);
-
-		Calendar date1=new GregorianCalendar(2016,1,25);
-
-		PastMeeting meeting1 = new PastMeetingImpl(-101,date1,setB,"Meeting was short. Key people missing");
-
+		PastMeeting meeting1 = (PastMeetingImpl) pastmeetingmap.get(id);
 		return meeting1;
 	}
 
@@ -84,6 +75,10 @@ public class ContactManagerImpl implements ContactManager{
 
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text){
 
+		PastMeeting meeting1 = new PastMeetingImpl(currentmeetingID,date,contacts,text);
+		pastmeetingmap.put(currentmeetingID,meeting1);
+		meetingmap.put(currentmeetingID,meeting1);
+		currentmeetingID++;
 	}
 
 	public PastMeeting addMeetingNotes(int id, String text){
