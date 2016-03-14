@@ -51,6 +51,34 @@ public class ContactManagerImplTest{
 		String resultmeetingnotes = manager1.getPastMeeting(1).getNotes();
 
 		assertEquals(meeting1.getNotes(),resultmeetingnotes);
+		assertEquals(meeting1.getDate(),manager1.getPastMeeting(1).getDate());
+
+		assertEquals(meeting1.getId(),manager1.getPastMeeting(1).getId());
+
+	}
+
+
+	@Test
+	public void testgetPastMeeting(){
+
+		Set<Contact> setB=new LinkedHashSet<Contact>();
+
+		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
+		Contact contact2 = new ContactImpl(13,"Adam Smith");
+
+		setB.add(contact1);
+		setB.add(contact2);
+
+		Calendar date1=new GregorianCalendar(2016,1,25);
+
+		PastMeeting meeting1 = new PastMeetingImpl(1,date1,setB,"Weekly catchup");
+
+		ContactManager manager1 = new ContactManagerImpl();
+
+		manager1.addNewPastMeeting(setB, date1,"Weekly catchup");
+		String resultmeetingnotes = manager1.getPastMeeting(1).getNotes();
+
+		assertEquals(meeting1.getDate(),manager1.getPastMeeting(1).getDate());
 
 		assertEquals(meeting1.getId(),manager1.getPastMeeting(1).getId());
 
