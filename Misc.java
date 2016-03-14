@@ -72,11 +72,12 @@ public class Misc{
 
 	System.out.println("map element: "+element11);
 
-	Iterator iterator4 = mapA.keySet().iterator();
+	Iterator<Integer> iterator4 = mapA.keySet().iterator();
 	while(iterator4.hasNext()){
-		Object key4   = iterator4.next();
-		Object value4 = mapA.get(key4);
+		Integer key4   = iterator4.next();
+		String value4 = mapA.get(key4);
 		System.out.println("Key:" + key4+" , "+"Value:  "+value4);
+		if(key4.equals(102)){System.out.println("Equal 101");}
 	}
 
 	//access via new for-loop
@@ -126,8 +127,17 @@ public class Misc{
 		String element = (String) object;
 	}
 
+	String name1="ullash Hazarika";
+	String str1="ula";
+	System.out.println("contains ul: "+name1.contains(str1));
 
-
+	Misc.func(100,130,-8);
     }
+
+    public static void func(int... nums){
+		for(int i=0;i<nums.length;i++){
+			System.out.println("num is "+nums[i]);
+		}
+	}
 
 }

@@ -8,12 +8,15 @@ public class ContactManagerImpl implements ContactManager{
 
 	private Integer meetingCount=0;
 	private Integer currentmeetingID=1;
+	private Integer currentcontactID=1;
+
 	private Map<Integer, Meeting> meetingmap;
 	private Map<Integer, Meeting> futuremeetingmap;
 	private Map<Integer, Meeting> pastmeetingmap;
 	private List<Meeting> meetings;	
 	private List<FutureMeeting> futuremeetings;
 	private List<PastMeeting> pastmeetings;
+	private Map<Integer, Contact> contactmap;
 
 	public ContactManagerImpl(){
 
@@ -23,6 +26,10 @@ public class ContactManagerImpl implements ContactManager{
 		meetings      = new ArrayList<Meeting>();
 		futuremeetings= new ArrayList<FutureMeeting>();
 		pastmeetings  = new ArrayList<PastMeeting>();
+		contactmap    = new HashMap<Integer, Contact>();
+		this.currentmeetingID=1;
+		this.currentcontactID=1;
+		
 	}
 	
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
@@ -47,18 +54,10 @@ public class ContactManagerImpl implements ContactManager{
 
 	public Meeting getMeeting(int id){
 
-		Set<Contact> setB=new LinkedHashSet<Contact>();
-
-		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
-		Contact contact2 = new ContactImpl(13,"Adam Smith");
-
-		setB.add(contact1);
-		setB.add(contact2);
-
-		Calendar date1=new GregorianCalendar(2016,1,25);
-
-		FutureMeeting meeting1 = new FutureMeetingImpl(101,date1,setB);
-		return meeting1;
+		FutureMeeting meeting1 = (FutureMeeting) futuremeetingmap.get(id);
+		if(meeting1!=null){ return meeting1;}
+		PastMeeting meeting2 = (PastMeeting) pastmeetingmap.get(id); 
+                return meeting2;
 	}
 
 	public List<Meeting> getFutureMeetingList(Contact contact){
@@ -83,44 +82,54 @@ public class ContactManagerImpl implements ContactManager{
 
 	public PastMeeting addMeetingNotes(int id, String text){
      
-		Set<Contact> setB=new LinkedHashSet<Contact>();
-
-		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
-		Contact contact2 = new ContactImpl(13,"Adam Smith");
-
-		setB.add(contact1);
-		setB.add(contact2);
-
-		Calendar date1=new GregorianCalendar(2016,1,25);
-
-		PastMeeting meeting1 = new PastMeetingImpl(-101,date1,setB,"Meeting was short. Key people missing");
-
-		return meeting1;
+		FutureMeeting meeting1 = (FutureMeetingImpl) futuremeetingmap.get(id);
+		Calendar date1 = meeting1.getDate();
+		Set<Contact> contactSet=meeting1.getContacts();
+		PastMeeting meeting2 = new PastMeetingImpl(id,date1,contactSet,text);
+		pastmeetingmap.put(id,meeting2);
+		return meeting2;
 	}
 
 	public int addNewContact(String name, String notes){
-		return 0;
+		Contact contact1= new ContactImpl(currentcontactID,name,notes);
+		int idc=currentcontactID;
+		contactmap.put(currentcontactID,contact1);
+		currentcontactID++;
+		return idc;
 	}
 
 	public Set<Contact> getContacts(String name){
 		Set<Contact> setB=new LinkedHashSet<Contact>();
 
-		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
-		Contact contact2 = new ContactImpl(13,"Adam Smith");
-
-		setB.add(contact1);
-		setB.add(contact2);
+		Iterator iterator4 = contactmap.keySet().iterator();
+		while(iterator4.hasNext()){
+			Object key4   = iterator4.next();
+			Contact contact4 = contactmap.get(key4);
+			if(contact4.getName().contains(name)){
+				setB.add(contact4);
+			}
+		}
+		
 		return setB;
 	}
 
 	public Set<Contact> getContacts(int... ids){
 		Set<Contact> setB=new LinkedHashSet<Contact>();
 
-		Contact contact1 = new ContactImpl(123,"Ullash Hazarika","He is always late to meetings");
-		Contact contact2 = new ContactImpl(13,"Adam Smith");
+		Iterator<Integer> iterator4 = contactmap.keySet().iterator();
 
-		setB.add(contact1);
-		setB.add(contact2);
+		while(iterator4.hasNext()){
+			Integer key4   = iterator4.next();
+			Contact contact4 = contactmap.get(key4);
+			
+			for(int i=0;i<ids.length;i++){	
+
+				if(key4.equals(ids[i])){
+					setB.add(contact4);
+				}
+			}
+		}
+		
 		return setB;
 	}
 
